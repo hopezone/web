@@ -306,7 +306,8 @@ daejeon: [
         };
 
         // 로컬스토리지 연동 (새로고침 초기화 방지)
-        let shelterData = JSON.parse(localStorage.getItem('hope_shelter_data')) || defaultShelterData;
+      localStorage.removeItem('hope_shelter_data');
+const shelterData = defaultShelterData;
 
         // 지역 변경 시 쉼터 목록 출력 및 데이터 렌더링
         function changeRegion(region, btn) {
@@ -328,7 +329,7 @@ const { ll, z } = mapCoords[region];
             list.innerHTML = "";
             
             shelterData[region].forEach(s => {
-                const shelterKey = s.name.replace(/ /g, '');
+               const shelterKey = s.name.replace(/[^a-zA-Z0-9가-힣]/g, '');
                 list.innerHTML += `
                     <div class="shelter-card">
                         <div style="display:flex; justify-content:space-between;">
