@@ -3,464 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>희망지대 - 당신을 위한 따뜻한 아지트</title>
-    
+    <title>aZit '쉼' - 청소년 안심 플랫폼</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-    
     <style>
         :root {
             --bg-warm: #FDFBF7;
-            --bg-card: #FFFFFF;
             --primary: #2E4857;
             --primary-light: #EBF1F5;
             --point-orange: #E2795B;
-            --point-orange-hover: #D16648;
             --point-light: #FDF2EE;
-            --safe-green: #4CAF50;
-            --safe-bg: #E8F5E9;
             --text-main: #1E293B;
             --text-sub: #64748B;
             --border: #E2E8F0;
+            --red: #EF4444;
+            --green: #22C55E;
+            --yellow: #F59E0B;
         }
-
-        /* 기본 초기화 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: var(--bg-warm);
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg-warm); color: var(--text-main); overflow-x: hidden; }
 
-        /* 1. 상단 안심 배너 */
-        .safe-banner {
-            background-color: #FFF9E6;
-            border-bottom: 1px solid #FFEBAA;
-            color: #B76E00;
-            padding: 10px;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 600;
-        }
+        /* ── 배너 ── */
+        .safe-banner { background: #FFF9E6; border-bottom: 1px solid #FFEBAA; color: #B76E00; padding: 8px 10px; text-align: center; font-size: 11px; font-weight: 600; }
 
-        /* 2. 네비게이션 헤더 */
-        header {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid var(--border);
-            padding: 14px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; cursor: pointer; text-decoration: none; color: var(--text-main); }
+        /* ── 헤더 ── */
+        header { background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--border); padding: 12px 16px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(8px); display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 800; cursor: pointer; color: var(--text-main); text-decoration: none; }
         .logo i { color: var(--point-orange); }
-        .menu-btn { font-size: 20px; color: var(--primary); cursor: pointer; border: none; background: none; }
+        .menu-btn { font-size: 20px; color: var(--primary); cursor: pointer; border: none; background: none; padding: 4px; }
 
-        /* 3. 사이드 메뉴 (더보기 서랍장) */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -4px 0 15px rgba(0,0,0,0.1);
-            z-index: 2000;
-            transition: right 0.3s ease;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* 상단 메뉴와 하단 로그인 구획 분리 */
-        }
+        /* ── 사이드바 ── */
+        .sidebar { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.12); z-index: 2000; transition: right 0.3s ease; padding: 28px 20px; display: flex; flex-direction: column; justify-content: space-between; }
         .sidebar.active { right: 0; }
-        .sidebar-close { position: absolute; top: 20px; left: 20px; font-size: 20px; cursor: pointer; }
+        .sidebar-close { position: absolute; top: 18px; left: 18px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
         .sidebar-menu { margin-top: 50px; list-style: none; }
-        .sidebar-menu li { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+        .sidebar-menu li { padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 12px; }
         .sidebar-menu li i { color: var(--point-orange); width: 20px; text-align: center; }
-        
-        /* 어두운 배경 오버레이 */
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1500; display: none; }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1500; display: none; }
         .sidebar-overlay.active { display: block; }
+        .sidebar-admin-zone { border-top: 1px dashed var(--border); padding-top: 14px; margin-bottom: 16px; }
+        .admin-badge { background: #EF4444; color: white; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; display: none; text-align: center; }
+        body.admin-mode .admin-badge { display: block; }
+        body.admin-mode .btn-admin-login { display: none; }
 
-        /* 사이드바 하단 관리자 로그인 고정 구역 */
-        .sidebar-admin-zone {
-            border-top: 1px dashed var(--border);
-            padding-top: 15px;
-            margin-bottom: 20px;
-        }
-
-        /* 4. 화면 전환 컨테이너 */
-        .page-content { display: none; width: 100%; max-width: 768px; margin: 0 auto; padding: 16px; min-height: calc(100vh - 120px); }
+        /* ── 페이지 전환 ── */
+        .page-content { display: none; width: 100%; max-width: 768px; margin: 0 auto; padding: 14px 14px 80px; min-height: calc(100vh - 120px); }
         .page-content.active { display: block; }
 
-        /* [홈 메인 디자인] */
-        .home-hero { text-align: center; padding: 35px 20px; background: linear-gradient(135deg, #FDF2EE 0%, #FFF9E6 100%); border-radius: 24px; margin-bottom: 24px; border: 1px solid #FCDCD1; }
-        .home-hero h1 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
-        .home-hero p { font-size: 14px; color: var(--text-sub); line-height: 1.4; }
-        
-        .home-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        .nav-card { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 24px 15px; text-align: center; cursor: pointer; transition: transform 0.2s; }
-        .nav-card:active { transform: scale(0.95); }
-        .nav-card i { font-size: 28px; color: var(--point-orange); margin-bottom: 10px; display: block; }
-        .nav-card span { font-weight: 800; font-size: 15px; }
+        /* ── 홈 ── */
+        .home-hero { text-align: center; padding: 28px 16px; background: linear-gradient(135deg, #FDF2EE 0%, #FFF9E6 100%); border-radius: 20px; margin-bottom: 16px; border: 1px solid #FCDCD1; }
+        .home-hero h1 { font-size: 20px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+        .home-hero p { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
 
-        /* [쉼터 찾기 & 이야기 광장 디자인] */
-        .section-title { font-size: 18px; font-weight: 800; margin: 10px 0 16px 0; display: flex; align-items: center; gap: 8px; }
-        .region-select { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; scrollbar-width: none; }
-        .btn-region { background: white; border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        /* 긴급 버튼 그리드 */
+        .emergency-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .emergency-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+        .btn-emergency { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 16px 10px; border-radius: 16px; text-decoration: none; font-weight: 800; font-size: 13px; cursor: pointer; border: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .btn-emergency:active { transform: scale(0.96); }
+        .btn-emergency i { font-size: 22px; }
+        .btn-em-red { background: #FEE2E2; color: #B91C1C; }
+        .btn-em-navy { background: var(--primary); color: white; }
+        .btn-em-orange { background: var(--point-orange); color: white; }
+        .btn-em-green { background: #DCFCE7; color: #166534; }
+        .btn-em-blue { background: #DBEAFE; color: #1D4ED8; }
+        .btn-em-purple { background: #EDE9FE; color: #6D28D9; }
+
+        /* 홈 내비 카드 */
+        .home-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .nav-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px 12px; text-align: center; cursor: pointer; transition: transform 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .nav-card:active { transform: scale(0.96); }
+        .nav-card i { font-size: 26px; color: var(--point-orange); margin-bottom: 8px; display: block; }
+        .nav-card span { font-weight: 800; font-size: 14px; display: block; }
+        .nav-card small { font-size: 11px; color: var(--text-sub); margin-top: 3px; display: block; }
+
+        /* 집으로 돌아가기 배너 */
+        .home-banner { background: linear-gradient(135deg, #2E4857 0%, #1a3040 100%); border-radius: 16px; padding: 18px 16px; color: white; margin-bottom: 14px; position: relative; overflow: hidden; }
+        .home-banner::after { content: '🏠'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 40px; opacity: 0.2; }
+        .home-banner h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+        .home-banner p { font-size: 12px; color: #A0B4C0; line-height: 1.5; margin-bottom: 12px; }
+        .btn-home-return { display: inline-block; background: var(--point-orange); color: white; padding: 9px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; border: none; cursor: pointer; }
+
+        /* ── 쉼터 찾기 ── */
+        .section-title { font-size: 17px; font-weight: 800; margin: 6px 0 14px; display: flex; align-items: center; gap: 8px; }
+        .region-select { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; }
+        .region-select::-webkit-scrollbar { display: none; }
+        .btn-region { background: white; border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
         .btn-region.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .map-frame { width: 100%; height: 250px; border-radius: 14px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .map-wrap { position: relative; border-radius: 14px; overflow: hidden; margin-bottom: 14px; height: 300px; border: 1px solid var(--border); }
+        .map-wrap iframe { position: absolute; top: -60px; left: 0; width: 100%; height: calc(100% + 60px); border: none; }
 
-        .shelter-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
-        .vacancy { background: var(--point-light); border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 75px; }
-        .btn-call { background: var(--primary); color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; }
+        /* 쉼터 카드 개선 */
+        .shelter-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+        .shelter-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+        .shelter-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; line-height: 1.3; }
+        .shelter-summary { font-size: 11px; color: var(--text-sub); line-height: 1.4; }
 
-        .write-box { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
-        .textarea-box { width: 100%; height: 70px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; resize: none; font-size: 13px; margin-bottom: 8px; }
-        .btn-post { background: var(--point-orange); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; }
+        /* 공석 배지 - 색상으로 구분 */
+        .vacancy-badge { border-radius: 10px; padding: 8px 10px; text-align: center; min-width: 68px; flex-shrink: 0; }
+        .vacancy-badge .v-label { font-size: 9px; font-weight: 700; display: block; margin-bottom: 2px; }
+        .vacancy-badge .v-num { font-size: 20px; font-weight: 900; display: block; line-height: 1; }
+        .vacancy-badge .v-unit { font-size: 10px; font-weight: 600; }
+        .v-red { background: #FEE2E2; color: #B91C1C; }
+        .v-yellow { background: #FEF9C3; color: #92400E; }
+        .v-green { background: #DCFCE7; color: #166534; }
+
+        .shelter-actions { display: flex; gap: 8px; }
+        .btn-call { background: var(--primary); color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; flex: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-police { background: #EF4444; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .secret-tag { font-size: 10px; color: #C62828; font-weight: 700; margin-bottom: 8px; }
+
+        .admin-only { display: none; background: #FFF5F5; border: 1px dashed #EF4444; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+        body.admin-mode .admin-only { display: block !important; }
+
+        /* ── 정보 탭 ── */
+        .info-tab-bar { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+        .info-tab-bar::-webkit-scrollbar { display: none; }
+        .btn-info-tab { background: white; border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+        .btn-info-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .info-section { display: none; }
+        .info-section.active { display: block; }
+        .info-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .info-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .info-card p, .info-card li { font-size: 12px; color: var(--text-sub); line-height: 1.7; }
+        .info-card ul { padding-left: 16px; }
+        .info-tag { display: inline-block; background: var(--point-light); color: var(--point-orange); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-bottom: 6px; }
+        .info-link { display: block; background: var(--primary-light); color: var(--primary); padding: 10px 14px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700; margin-top: 8px; text-align: center; }
+
+        /* ── 커뮤니티 ── */
+        .community-tabs { display: flex; gap: 0; margin-bottom: 14px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+        .btn-comm-tab { flex: 1; padding: 10px; font-size: 13px; font-weight: 700; border: none; background: white; cursor: pointer; color: var(--text-sub); }
+        .btn-comm-tab.active { background: var(--primary); color: white; }
+        .comm-section { display: none; }
+        .comm-section.active { display: block; }
+
+        .write-box { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+        .write-category { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+        .btn-cat { background: var(--bg-warm); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-cat.active { background: var(--point-orange); color: white; border-color: var(--point-orange); }
+        .textarea-box { width: 100%; height: 70px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; resize: none; font-size: 13px; font-family: 'Pretendard', sans-serif; }
+        .btn-post { background: var(--point-orange); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 13px; margin-top: 8px; font-family: 'Pretendard', sans-serif; }
 
         .post { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-        .post-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-sub); margin-bottom: 6px; }
-        .post-actions { display: flex; gap: 14px; margin-top: 10px; font-size: 12px; }
+        .post-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); margin-bottom: 6px; }
+        .post-cat-badge { background: var(--point-light); color: var(--point-orange); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+        .post-text { font-size: 13px; line-height: 1.5; }
+        .post-actions { display: flex; gap: 12px; margin-top: 10px; }
+        .post-actions button { border: none; background: none; cursor: pointer; font-size: 12px; color: var(--text-sub); font-family: 'Pretendard', sans-serif; padding: 0; }
         .comment-area { background: #F8FAFC; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; }
         .comment-area.active { display: block; }
 
-        /* 🔒 관리자 전용 실시간 확장 스타일 */
-        .admin-only {
-            display: none; 
-            background-color: #FFF5F5;
-            border: 1px dashed #EF4444;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        body.admin-mode .admin-only { display: block !important; }
-        
-        .admin-badge {
-            background-color: #EF4444;
-            color: white;
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-            display: none;
-            text-align: center;
-        }
-        body.admin-mode .admin-badge { display: block; }
-        body.admin-mode .btn-admin-login { display: none; } /* 로그인 후 버튼 감추기 */
+        /* ── 하단 고정 네비 ── */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); display: flex; z-index: 900; max-width: 768px; margin: 0 auto; }
+        .bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px; cursor: pointer; font-size: 10px; font-weight: 600; color: var(--text-sub); gap: 3px; border: none; background: none; font-family: 'Pretendard', sans-serif; }
+        .bottom-nav-item i { font-size: 18px; }
+        .bottom-nav-item.active { color: var(--primary); }
+        .bottom-nav-item.sos { color: #EF4444; }
 
-        footer { text-align: center; padding: 30px; font-size: 11px; color: var(--text-sub); border-top: 1px solid var(--border); margin-top: 40px; }
+        footer { text-align: center; padding: 24px; font-size: 11px; color: var(--text-sub); border-top: 1px solid var(--border); margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="safe-banner">
-        <i class="fa-solid fa-shield-halved"></i> 위치 정보는 안전하게 암호화되며 상시 익명으로 처리됩니다.
-    </div>
-
-    <header>
-        <div class="logo" onclick="showPage('home')">
-            <i class="fa-solid fa-house-chimney-window"></i>
-            <span>aZit '쉼'</span>
-        </div>
-        <button class="menu-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-    </header>
-
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
-        <div>
-            <div class="sidebar-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></div>
-            <ul class="sidebar-menu">
-                <li onclick="showPage('home'); toggleSidebar()"><i class="fa-solid fa-house"></i> 홈 화면</li>
-                <li onclick="showPage('map'); toggleSidebar()"><i class="fa-solid fa-map-location-dot"></i> 쉼터 찾기</li>
-                <li onclick="showPage('community'); toggleSidebar()"><i class="fa-solid fa-heart"></i> 이야기 광장</li>
-                <li onclick="alert('곧 업데이트 예정입니다!')"><i class="fa-solid fa-circle-info"></i> 도움말 / 상담</li>
-            </ul>
-        </div>
-        
-        <div class="sidebar-admin-zone">
-            <button onclick="loginAsAdmin()" class="btn-admin-login" style="width:100%; background: #F8FAFC; border: 1px solid var(--border); color: var(--text-sub); padding: 10px; border-radius: 8px; font-size: 12px; font-weight:700; cursor: pointer;">
-                <i class="fa-solid fa-lock" style="margin-right:4px;"></i> 기관 담당자 로그인
-            </button>
-            <div class="admin-badge" id="admin-badge">
-                <i class="fa-solid fa-user-shield"></i> 복지사 모드 작동 중
-            </div>
-        </div>
-    </div>
-
-    <div id="home" class="page-content active">
-        <div class="home-hero">
-            <div style="width: 100%; max-width: 200px; margin: 0 auto 15px auto; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <img src="logo.png" alt="희망지대 로고" style="width: 100%; height: auto; display: block;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'; this.style.opacity='0.4';">
-            </div>
-            <h1>안전한 쉼이 필요한 순간</h1>
-            <p style="margin-top: 4px;">혼자 고민하지 마세요. <br>지금 당신 곁에 따뜻한 아지트와 친구들이 있습니다.</p>
-        </div>
-
-        <div class="home-nav-grid">
-            <div class="nav-card" onclick="showPage('map')">
-                <i class="fa-solid fa-map-marked-alt"></i>
-                <span>쉼터 찾기</span>
-            </div>
-            <div class="nav-card" onclick="showPage('community')">
-                <i class="fa-solid fa-comments"></i>
-                <span>이야기 광장</span>
-            </div>
-        </div>
-
-        <div style="margin-top: 20px; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 18px;">
-            <h3 style="font-size: 15px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                <i class="fa-solid fa-phone-volume" style="color:var(--point-orange)"></i> 긴급 상담이 필요한가요?
-            </h3>
-            <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 15px; line-height: 1.4;">
-                망설이지 말고 언제든 노크해주세요. 버튼을 누르면 24시간 청소년 긴급 상담전화로 바로 연결됩니다.
-            </p>
-            <a href="tel:1388" style="display: block; background: var(--primary); color: white; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 700;">
-                <i class="fa-solid fa-phone"></i> 전화 걸기 (국번없이 1388)
-            </a>
-        </div>
-    </div>
-
-    <div id="map" class="page-content">
-        <h2 class="section-title"><i class="fa-solid fa-map-location-dot"></i> 내 주변 쉼터 찾기</h2>
-        
-        <div class="region-select">
-            <button class="btn-region active" onclick="changeRegion('seoul', this)">서울</button>
-            <button class="btn-region" onclick="changeRegion('gyeonggi', this)">경기/인천</button>
-            <button class="btn-region" onclick="changeRegion('busan', this)">부산/대구/경북</button>
-            <button class="btn-region" onclick="changeRegion('daejeon', this)">충청/대전</button>
-        </div>
-
-        <div style="position:relative; border-radius:14px; overflow:hidden; margin-bottom:16px; height:250px;">
-    <iframe id="region-map" class="map-frame" src="about:blank" style="position:absolute; top:-70px; left:0; width:100%; height:calc(100% + 70px); border:none; margin:0;"></iframe>
+<div class="safe-banner">
+    <i class="fa-solid fa-shield-halved"></i> 모든 정보는 익명으로 처리되며 위치 정보는 암호화됩니다.
 </div>
 
-        <div id="shelter-list"></div>
+<header>
+    <div class="logo" onclick="showPage('home')">
+        <i class="fa-solid fa-house-chimney-window"></i>
+        <span>aZit '쉼'</span>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+    <div>
+        <div class="sidebar-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></div>
+        <ul class="sidebar-menu">
+            <li onclick="showPage('home'); toggleSidebar()"><i class="fa-solid fa-house"></i> 홈</li>
+            <li onclick="showPage('map'); toggleSidebar()"><i class="fa-solid fa-map-location-dot"></i> 쉼터 찾기</li>
+            <li onclick="showPage('info'); toggleSidebar()"><i class="fa-solid fa-circle-info"></i> 생존·자립 정보</li>
+            <li onclick="showPage('community'); toggleSidebar()"><i class="fa-solid fa-heart"></i> 이야기 광장</li>
+        </ul>
+    </div>
+    <div class="sidebar-admin-zone">
+        <button onclick="loginAsAdmin()" class="btn-admin-login" style="width:100%;background:#F8FAFC;border:1px solid var(--border);color:var(--text-sub);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Pretendard',sans-serif;">
+            <i class="fa-solid fa-lock" style="margin-right:4px;"></i> 기관 담당자 로그인
+        </button>
+        <div class="admin-badge"><i class="fa-solid fa-user-shield"></i> 복지사 모드 작동 중</div>
+    </div>
+</div>
+
+<!-- ───────── 홈 ───────── -->
+<div id="home" class="page-content active">
+
+    <div class="home-hero">
+        <img src="logo.png" alt="로고" style="width:80px;height:80px;border-radius:20px;object-fit:cover;margin-bottom:12px;" onerror="this.style.display='none'">
+        <h1>안전한 쉼이 필요한 순간</h1>
+        <p>혼자 고민하지 마세요<br>당신 주변의 지원 기관에 도움을 요청하세요</p>
     </div>
 
-    <div id="community" class="page-content">
-        <h2 class="section-title"><i class="fa-solid fa-heart" style="color:#E11D48"></i> 토닥토닥 이야기 광장</h2>
-        
-        <div class="write-box">
-            <textarea id="post-input" class="textarea-box" placeholder="지나온 소감이나 응원 한마디를 남겨주세요. (익명 보장)"></textarea>
-            <button class="btn-post" onclick="addPost()">소중한 글 등록하기</button>
+    <!-- 메인 메뉴 카드 -->
+    <div style="font-size:12px;font-weight:700;color:var(--text-sub);margin:14px 0 8px;">📌 메뉴</div>
+    <div class="home-nav-grid">
+        <div class="nav-card" onclick="showPage('map')">
+            <i class="fa-solid fa-map-marked-alt"></i>
+            <span>쉼터 찾기</span>
+            <small>가까운 쉼터 지도</small>
         </div>
-
-        <div id="post-list"></div>
+        <div class="nav-card" onclick="showPage('info')">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>생존·자립 정보</span>
+            <small>먹고 자고 살아가기</small>
+        </div>
+        <div class="nav-card" onclick="showPage('community')">
+            <i class="fa-solid fa-comments"></i>
+            <span>이야기 광장</span>
+            <small>익명 소통 공간</small>
+        </div>
+        <div class="nav-card" onclick="showPage('map')">
+            <i class="fa-solid fa-bed"></i>
+            <span>빈 자리 확인</span>
+            <small>오늘 잘 수 있는 곳</small>
+        </div>
     </div>
 
-    <footer>
-        <p>대학생 운영진 및 전국 청소년쉼터·상담센터가 함께 협력하여 모니터링하고 있습니다.</p>
-        <p style="color: #CBD5E1; margin-top: 6px;">© 희망지대 프로젝트. 당신의 모든 내일을 응원합니다.</p>
-    </footer>
+    <!-- 집으로 돌아가기 배너 -->
+    <div class="home-banner" style="margin-top:14px;">
+        <h3><i class="fa-solid fa-house" style="margin-right:6px;"></i> 집으로 돌아가고 싶으세요?</h3>
+        <p>가족과의 갈등, 오해가 있었더라도 다시 연결될 수 있어요.<br>전문 상담사가 가정 복귀를 도와드릴 수 있습니다.</p>
+        <a href="tel:1388" class="btn-home-return"><i class="fa-solid fa-phone" style="margin-right:5px;"></i> 1388 가정복귀 상담 연결</a>
+    </div>
 
-    <script>
-        // 화면 전환 함수
-        function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
+    <!-- 긴급 버튼 -->
+    <div style="font-size:12px;font-weight:700;color:var(--text-sub);margin:14px 0 8px;">⚡ 지금 바로 도움 받기</div>
+    <div class="emergency-grid">
+        <a href="tel:112" class="btn-emergency btn-em-red">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>경찰 신고 112</span>
+        </a>
+        <a href="tel:1388" class="btn-emergency btn-em-navy">
+            <i class="fa-solid fa-phone-volume"></i>
+            <span>청소년상담 1388</span>
+        </a>
+    </div>
+    <div class="emergency-grid triple">
+        <a href="tel:119" class="btn-emergency btn-em-red" style="font-size:12px;">
+            <i class="fa-solid fa-truck-medical"></i>
+            <span>응급 119</span>
+        </a>
+        <a href="tel:1393" class="btn-emergency btn-em-purple" style="font-size:12px;">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>자살예방 1393</span>
+        </a>
+        <a href="tel:129" class="btn-emergency btn-em-blue" style="font-size:12px;">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>복지상담 129</span>
+        </a>
+    </div>
+</div>
+
+<!-- ───────── 쉼터 찾기 ───────── -->
+<div id="map" class="page-content">
+    <h2 class="section-title"><i class="fa-solid fa-map-location-dot"></i> 쉼터 찾기</h2>
+    <div class="region-select">
+        <button class="btn-region active" onclick="changeRegion('seoul', this)">서울</button>
+        <button class="btn-region" onclick="changeRegion('gyeonggi', this)">경기/인천</button>
+        <button class="btn-region" onclick="changeRegion('busan', this)">부산/대구/경북</button>
+        <button class="btn-region" onclick="changeRegion('daejeon', this)">충청/대전/광주/울산</button>
+    </div>
+
+    <div class="map-wrap">
+        <iframe id="region-map" src="about:blank"></iframe>
+    </div>
+
+    <div id="shelter-list"></div>
+</div>
+
+<!-- ───────── 생존·자립 정보 ───────── -->
+<div id="info" class="page-content">
+    <h2 class="section-title"><i class="fa-solid fa-circle-info"></i> 생존·자립 정보</h2>
+
+    <div class="info-tab-bar">
+        <button class="btn-info-tab active" onclick="switchInfoTab('survival', this)">🍚 생존 정보</button>
+        <button class="btn-info-tab" onclick="switchInfoTab('independence', this)">🏠 자립 정보</button>
+        <button class="btn-info-tab" onclick="switchInfoTab('legal', this)">⚖️ 법적 권리</button>
+        <button class="btn-info-tab" onclick="switchInfoTab('mental', this)">💚 마음 건강</button>
+    </div>
+
+    <!-- 생존 정보 -->
+    <div id="info-survival" class="info-section active">
+        <div class="info-card">
+            <div class="info-tag">긴급 식사</div>
+            <h3><i class="fa-solid fa-utensils" style="color:var(--point-orange)"></i> 밥 먹을 수 있는 곳</h3>
+            <ul>
+                <li>청소년쉼터 — 입소 즉시 식사 제공 (무료)</li>
+                <li>지역 푸드뱅크 — 식품 무료 지원 (주민센터 문의)</li>
+                <li>종교시설 급식소 — 전국 운영 (검색: ○○ 무료급식)</li>
+                <li>청소년 밥상머리 프로그램 — 주민센터 통해 신청</li>
+            </ul>
+            <a href="tel:129" class="info-link"><i class="fa-solid fa-phone"></i> 복지상담 129 — 긴급복지 신청</a>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">잠자리</div>
+            <h3><i class="fa-solid fa-bed" style="color:var(--point-orange)"></i> 오늘 밤 잘 곳</h3>
+            <ul>
+                <li>일시쉼터 — 즉시 입소 가능, 최대 7일 무료 숙식 제공</li>
+                <li>단기쉼터 — 최대 9개월 보호, 상담·생활 지원 포함</li>
+                <li>여성긴급전화 1366 — 여성·청소년 긴급 피난처 연결</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">의료</div>
+            <h3><i class="fa-solid fa-stethoscope" style="color:var(--point-orange)"></i> 병원·약 — 돈 없어도 돼요</h3>
+            <ul>
+                <li>청소년 긴급의료지원 — 1388 통해 연계, 본인부담 없음</li>
+                <li>지역 보건소 — 무료 또는 저렴한 진료</li>
+                <li>긴급복지지원 의료비 — 주민센터 또는 129 신청</li>
+            </ul>
+            <a href="tel:1388" class="info-link"><i class="fa-solid fa-phone"></i> 1388 — 의료비 지원 연계</a>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">안전</div>
+            <h3><i class="fa-solid fa-shield-halved" style="color:var(--point-orange)"></i> 위험할 때 대처법</h3>
+            <ul>
+                <li>즉각적인 위험 → 112 신고 (경찰)</li>
+                <li>성폭력·성희롱 → 117 (여성·아동 피해자 지원)</li>
+                <li>학대 피해 → 아동보호전문기관 1577-1391</li>
+                <li>24시간 안전한 공간 → 가까운 쉼터 또는 편의점</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 자립 정보 -->
+    <div id="info-independence" class="info-section">
+        <div class="info-card">
+            <div class="info-tag">주거</div>
+            <h3><i class="fa-solid fa-house" style="color:var(--point-orange)"></i> 내 집 마련 지원</h3>
+            <ul>
+                <li>청년 매입임대주택 — LH 또는 각 지자체 신청</li>
+                <li>쉼터 퇴소 청소년 자립지원관 — 최대 3년 주거 지원</li>
+                <li>청년 전세임대 — 보증금 최대 1억 2천만 원 지원</li>
+                <li>자립준비청년 주거지원 — 만 18세 이후 퇴소자 대상</li>
+            </ul>
+            <a href="https://www.lh.or.kr" class="info-link" target="_blank"><i class="fa-solid fa-arrow-right"></i> LH 청년주거 바로가기</a>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">학업·검정고시</div>
+            <h3><i class="fa-solid fa-graduation-cap" style="color:var(--point-orange)"></i> 학교 다시 다닐 수 있어요</h3>
+            <ul>
+                <li>학교밖청소년지원센터 '꿈드림' — 검정고시 준비 지원</li>
+                <li>쉼터 내 학습지원 — 학업복귀 프로그램 운영</li>
+                <li>방송통신중고등학교 — 나이 상관없이 입학 가능</li>
+            </ul>
+            <a href="tel:1388" class="info-link"><i class="fa-solid fa-phone"></i> 1388 — 꿈드림 센터 연결</a>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">취업·아르바이트</div>
+            <h3><i class="fa-solid fa-briefcase" style="color:var(--point-orange)"></i> 돈 벌 수 있는 방법</h3>
+            <ul>
+                <li>청소년 직업체험 및 취업 연계 — 쉼터 통해 지원</li>
+                <li>고용노동부 청년취업아카데미 — 무료 직업훈련</li>
+                <li>아르바이트 최저임금 2025년 기준: 시간당 10,030원</li>
+                <li>임금체불 시 고용노동부 1350으로 신고 가능</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">현금·생계</div>
+            <h3><i class="fa-solid fa-won-sign" style="color:var(--point-orange)"></i> 지원금 받는 방법</h3>
+            <ul>
+                <li>긴급복지지원 — 위기상황 시 최대 6개월 생계비 지원</li>
+                <li>자립수당 — 쉼터 퇴소 후 월 40만 원 (최대 3년)</li>
+                <li>청년내일저축계좌 — 저소득 청년 자산 형성 지원</li>
+            </ul>
+            <a href="tel:129" class="info-link"><i class="fa-solid fa-phone"></i> 복지로 129 — 지원금 상담</a>
+        </div>
+    </div>
+
+    <!-- 법적 권리 -->
+    <div id="info-legal" class="info-section">
+        <div class="info-card">
+            <div class="info-tag">알아야 할 권리</div>
+            <h3><i class="fa-solid fa-scale-balanced" style="color:var(--point-orange)"></i> 청소년도 법적 보호를 받아요</h3>
+            <ul>
+                <li>부모 동의 없이도 쉼터 입소 가능 (청소년복지지원법)</li>
+                <li>경찰에 의한 강제 귀가는 본인 동의 필요</li>
+                <li>학대·폭력 피해 시 아동보호전문기관에 신고 가능</li>
+                <li>근로계약서 없는 아르바이트도 임금 보호 받음</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">법률 도움</div>
+            <h3><i class="fa-solid fa-gavel" style="color:var(--point-orange)"></i> 무료 법률 지원</h3>
+            <ul>
+                <li>법률구조공단 — 국번없이 132 (무료 법률 상담)</li>
+                <li>청소년법률지원센터 — 1388 통해 연결</li>
+                <li>대한법률구조공단 온라인 상담 — 무료</li>
+            </ul>
+            <a href="tel:132" class="info-link"><i class="fa-solid fa-phone"></i> 132 — 무료 법률 상담</a>
+        </div>
+    </div>
+
+    <!-- 마음 건강 -->
+    <div id="info-mental" class="info-section">
+        <div class="info-card">
+            <div class="info-tag">마음이 힘들 때</div>
+            <h3><i class="fa-solid fa-heart" style="color:var(--point-orange)"></i> 지금 많이 힘드신가요?</h3>
+            <p style="margin-bottom:10px;">혼자 다 버티지 않아도 돼요. 말하는 것만으로도 많이 달라질 수 있어요.</p>
+            <ul>
+                <li>자살예방상담전화 1393 — 24시간 무료</li>
+                <li>청소년 사이버상담 — 문자·카카오 가능 (1388)</li>
+                <li>마음이음 온라인 상담 — 익명 채팅 상담</li>
+            </ul>
+            <a href="tel:1393" class="info-link" style="background:#FEE2E2;color:#B91C1C;"><i class="fa-solid fa-heart-pulse"></i> 1393 — 24시간 위기상담</a>
+        </div>
+        <div class="info-card">
+            <div class="info-tag">무료 상담</div>
+            <h3><i class="fa-solid fa-comments" style="color:var(--point-orange)"></i> 무료로 상담 받을 수 있어요</h3>
+            <ul>
+                <li>청소년상담복지센터 — 전국 어디서나 1388</li>
+                <li>Wee클래스·Wee센터 — 학교 및 지역 운영</li>
+                <li>정신건강위기상담전화 1577-0199</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ───────── 이야기 광장 ───────── -->
+<div id="community" class="page-content">
+    <h2 class="section-title"><i class="fa-solid fa-heart" style="color:#E11D48"></i> 이야기 광장</h2>
+
+    <div class="community-tabs">
+        <button class="btn-comm-tab active" onclick="switchCommTab('all', this)">전체</button>
+        <button class="btn-comm-tab" onclick="switchCommTab('shelter', this)">쉼터후기</button>
+        <button class="btn-comm-tab" onclick="switchCommTab('cheer', this)">응원·위로</button>
+        <button class="btn-comm-tab" onclick="switchCommTab('info', this)">정보공유</button>
+        <button class="btn-comm-tab" onclick="switchCommTab('question', this)">질문</button>
+    </div>
+
+    <div class="write-box">
+        <div class="write-category">
+            <button class="btn-cat active" onclick="selectCat(this, 'cheer')">💛 응원·위로</button>
+            <button class="btn-cat" onclick="selectCat(this, 'shelter')">🏠 쉼터후기</button>
+            <button class="btn-cat" onclick="selectCat(this, 'info')">📢 정보공유</button>
+            <button class="btn-cat" onclick="selectCat(this, 'question')">❓ 질문</button>
+        </div>
+        <textarea id="post-input" class="textarea-box" placeholder="익명으로 글을 남겨주세요. 여기선 판단하지 않아요."></textarea>
+        <button class="btn-post" onclick="addPost()"><i class="fa-solid fa-pen"></i> 글 등록하기</button>
+    </div>
+
+    <div id="post-list"></div>
+</div>
+
+<!-- ───────── 하단 네비 ───────── -->
+<nav class="bottom-nav">
+    <button class="bottom-nav-item active" onclick="showPage('home')" id="nav-home">
+        <i class="fa-solid fa-house"></i> 홈
+    </button>
+    <button class="bottom-nav-item" onclick="showPage('map')" id="nav-map">
+        <i class="fa-solid fa-map-location-dot"></i> 쉼터
+    </button>
+    <button class="bottom-nav-item" onclick="showPage('info')" id="nav-info">
+        <i class="fa-solid fa-circle-info"></i> 정보
+    </button>
+    <button class="bottom-nav-item" onclick="showPage('community')" id="nav-community">
+        <i class="fa-solid fa-comments"></i> 광장
+    </button>
+    <button class="bottom-nav-item sos" onclick="window.location.href='tel:112'">
+        <i class="fa-solid fa-shield-halved"></i> SOS
+    </button>
+</nav>
+
+<footer>
+    <p>대학생 운영진 및 전국 청소년쉼터·상담센터가 함께 모니터링합니다.</p>
+    <p style="color:#CBD5E1;margin-top:4px;">© aZit '쉼' 희망지대 프로젝트. 당신의 모든 내일을 응원합니다.</p>
+</footer>
+
+<script>
+    // ── 페이지 전환 ──
+    function showPage(pageId) {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+        const nav = document.getElementById('nav-' + pageId);
+        if (nav) nav.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+    // ── 정보 탭 ──
+    function switchInfoTab(tab, btn) {
+        document.querySelectorAll('.info-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.btn-info-tab').forEach(b => b.classList.remove('active'));
+        document.getElementById('info-' + tab).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // ── 커뮤니티 탭 ──
+    let currentCommTab = 'all';
+    function switchCommTab(tab, btn) {
+        currentCommTab = tab;
+        document.querySelectorAll('.btn-comm-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderPosts();
+    }
+
+    // ── 글쓰기 카테고리 ──
+    let selectedCat = 'cheer';
+    function selectCat(btn, cat) {
+        selectedCat = cat;
+        document.querySelectorAll('.btn-cat').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // ── 쉼터 데이터 ──
+    localStorage.removeItem('hope_shelter_data');
+    const shelterData = {
+        seoul: [
+            { name: "서울시립용산일시청소년쉼터 (고정형)", phone: "02-718-1318", vacancy: "3", summary: "365일 24시간 운영 / 의식주 지원 및 위기상담 제공" },
+            { name: "서울시립금천여자단기청소년쉼터", phone: "02-3281-8200", vacancy: "2", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
+            { name: "시립망우청소년단기쉼터 (여성)", phone: "02-493-1388", vacancy: "5", summary: "여자청소년 전용 / 상담·학업복귀·생활지원 제공" },
+            { name: "시립강북일시청소년쉼터", phone: "02-6435-7979", vacancy: "3", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담" },
+            { name: "은평구립일시청소년쉼터 (고정형, 여성)", phone: "02-382-1388", vacancy: "4", summary: "여자청소년 전용 일시보호 / 의식주 지원 및 긴급상담" },
+            { name: "서울시립양천일시청소년쉼터 (고정형)", phone: "02-2051-8600", vacancy: "1", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담" },
+        ],
+        gyeonggi: [
+            { name: "구리시여자단기청소년쉼터", phone: "031-565-1388", vacancy: "6", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
+            { name: "성남시여자단기청소년쉼터", phone: "031-758-1213", vacancy: "3", summary: "여자청소년 전용 / 상담·학업복귀·생활지원 제공" },
+            { name: "부천청소년일시쉼터", phone: "032-654-1318", vacancy: "4", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담" },
+            { name: "군포시남자중장기청소년쉼터", phone: "031-399-7997", vacancy: "2", summary: "남자청소년 전용 / 학업·취업·자립 맞춤 프로그램" },
+            { name: "인천시청소년자립지원관", phone: "032-873-1319", vacancy: "5", summary: "쉼터 퇴소 후 자립준비 / 주거·진로·취업 집중 지원" },
+        ],
+        busan: [
+            { name: "부산광역시청소년자립지원관", phone: "051-303-9671", vacancy: "3", summary: "쉼터 퇴소 후 자립준비 / 주거·진로·취업 집중 지원" },
+            { name: "부산광역시여자중장기청소년쉼터", phone: "051-581-1388", vacancy: "4", summary: "여자청소년 전용 장기보호 / 학업·취업·자립 맞춤 프로그램" },
+            { name: "부산시여자단기청소년쉼터", phone: "051-756-0924", vacancy: "5", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
+            { name: "대구광역시일시청소년쉼터 (고정형)", phone: "053-764-1388", vacancy: "2", summary: "365일 24시간 운영 / 의식주 지원 및 위기상담 제공" },
+        ],
+        daejeon: [
+            { name: "대전광역시일시청소년쉼터 (이동형)", phone: "042-221-1092", vacancy: "1", summary: "찾아가는 거리상담 / 아웃리치 및 긴급보호 연계" },
+            { name: "대전시남자단기청소년쉼터", phone: "042-223-7179", vacancy: "3", summary: "남자청소년 전용 / 최대 9개월 보호 및 자립지원" },
+            { name: "울산울주군남자중장기청소년쉼터", phone: "052-223-5186", vacancy: "4", summary: "남자청소년 전용 장기보호 / 학업·취업·자립 맞춤 프로그램" },
+            { name: "광주광역시일시청소년쉼터 (이동형)", phone: "062-527-1318", vacancy: "2", summary: "찾아가는 거리상담 / 아웃리치 및 긴급보호 연계" },
+        ]
+    };
+
+    // vacancy 저장값 복원
+    const savedVacancies = JSON.parse(localStorage.getItem('hope_vacancies')) || {};
+    Object.keys(savedVacancies).forEach(key => {
+        const [region, shelterKey] = key.split('__');
+        if (shelterData[region]) {
+            const shelter = shelterData[region].find(s => s.name.replace(/[^a-zA-Z0-9가-힣]/g, '') === shelterKey);
+            if (shelter) shelter.vacancy = savedVacancies[key];
         }
+    });
 
-        // 서랍장 사이드바 온/오프 함수
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+    // 공석 수에 따른 색상 클래스
+    function vacancyClass(num) {
+        const n = parseInt(num);
+        if (isNaN(n) || n === 0) return 'v-red';
+        if (n <= 2) return 'v-yellow';
+        return 'v-green';
+    }
+
+    function changeRegion(region, btn) {
+        if (btn) {
+            document.querySelectorAll('.btn-region').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
-
-        // 초기 기본 데이터 모델 정의
-        const defaultShelterData = {
-            seoul: [
-    { name: "서울시립용산일시청소년쉼터 (고정형)", phone: "02-718-1318", vacancy: "3석", summary: "365일 24시간 운영 / 의식주 지원 및 위기상담 제공" },
-    { name: "서울시립금천여자단기청소년쉼터", phone: "02-3281-8200", vacancy: "2석", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
-    { name: "시립망우청소년단기쉼터 (여성)", phone: "02-493-1388", vacancy: "5석", summary: "여자청소년 전용 / 상담·학업복귀·생활지원 제공" },
-    { name: "시립강북일시청소년쉼터", phone: "02-6435-7979", vacancy: "3석", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담 제공" },
-    { name: "은평구립일시청소년쉼터 (고정형, 여성)", phone: "02-382-1388", vacancy: "4석", summary: "여자청소년 전용 일시보호 / 의식주 지원 및 긴급상담" },
-    { name: "서울시립양천일시청소년쉼터 (고정형)", phone: "02-2051-8600", vacancy: "1석", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담 제공" },
-],
-gyeonggi: [
-    { name: "구리시여자단기청소년쉼터", phone: "031-565-1388", vacancy: "6석", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
-    { name: "성남시여자단기청소년쉼터", phone: "031-758-1213", vacancy: "3석", summary: "여자청소년 전용 / 상담·학업복귀·생활지원 제공" },
-    { name: "부천청소년일시쉼터", phone: "032-654-1318", vacancy: "4석", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담 제공" },
-    { name: "군포시남자중장기청소년쉼터", phone: "031-399-7997", vacancy: "2석", summary: "남자청소년 전용 / 학업·취업·자립 맞춤 프로그램 운영" },
-    { name: "인천시청소년자립지원관", phone: "032-873-1319", vacancy: "5석", summary: "쉼터 퇴소 후 자립준비 / 주거·진로·취업 집중 지원" },
-],
-busan: [
-    { name: "부산광역시청소년자립지원관", phone: "051-303-9671", vacancy: "3석", summary: "쉼터 퇴소 후 자립준비 / 주거·진로·취업 집중 지원" },
-    { name: "부산광역시여자중장기청소년쉼터", phone: "051-581-1388", vacancy: "4석", summary: "여자청소년 전용 장기보호 / 학업·취업·자립 맞춤 프로그램" },
-    { name: "부산시여자단기청소년쉼터", phone: "051-756-0924", vacancy: "5석", summary: "여자청소년 전용 / 최대 9개월 보호 및 자립지원" },
-    { name: "대구광역시일시청소년쉼터 (고정형)", phone: "053-764-1388", vacancy: "2석", summary: "24시간 ~ 7일 단기보호 / 의식주 지원 및 위기상담 제공" },
-],
-daejeon: [
-    { name: "대전광역시일시청소년쉼터 (이동형)", phone: "042-221-1092", vacancy: "1석", summary: "찾아가는 거리상담 / 아웃리치 및 긴급보호 연계" },
-    { name: "대전시남자단기청소년쉼터", phone: "042-223-7179", vacancy: "3석", summary: "남자청소년 전용 / 최대 9개월 보호 및 자립지원" },
-    { name: "울산울주군남자중장기청소년쉼터", phone: "052-223-5186", vacancy: "4석", summary: "남자청소년 전용 장기보호 / 학업·취업·자립 맞춤 프로그램" },
-    { name: "광주광역시일시청소년쉼터 (이동형)", phone: "062-527-1318", vacancy: "2석", summary: "찾아가는 거리상담 / 아웃리치 및 긴급보호 연계" },
-]
+        const mapCoords = {
+            seoul:    { ll: "37.5665,126.9780", z: 12 },
+            gyeonggi: { ll: "37.2900,127.0090", z: 11 },
+            busan:    { ll: "35.1796,129.0756", z: 12 },
+            daejeon:  { ll: "36.3504,127.3845", z: 12 }
         };
+        const { ll, z } = mapCoords[region];
+        document.getElementById('region-map').src =
+            `https://www.google.com/maps/d/embed?mid=1UJLQddM4EDD_2JOXhv9lb3wuIUptZ2s&ehbc=2E312F&ll=${ll}&z=${z}`;
 
-        // 로컬스토리지 연동 (새로고침 초기화 방지)
-      localStorage.removeItem('hope_shelter_data');
-const shelterData = defaultShelterData;
-
-        // 지역 변경 시 쉼터 목록 출력 및 데이터 렌더링
-        function changeRegion(region, btn) {
-            if(btn) {
-                document.querySelectorAll('.btn-region').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-            
-            const mapCoords = {
-    seoul:    { ll: "37.5665,126.9780", z: 12 },
-    gyeonggi: { ll: "37.2900,127.0090", z: 11 },
-    busan:    { ll: "35.1796,129.0756", z: 12 },
-    daejeon:  { ll: "36.3504,127.3845", z: 12 }
-};
-const { ll, z } = mapCoords[region];
-           document.getElementById('region-map').src = `https://www.google.com/maps/d/embed?mid=1UJLQddM4EDD_2JOXhv9lb3wuIUptZ2s&ehbc=2E312F&ll=${ll}&z=${z}`;
-
-            const list = document.getElementById('shelter-list');
-            list.innerHTML = "";
-            
-            shelterData[region].forEach(s => {
-               const shelterKey = s.name.replace(/[^a-zA-Z0-9가-힣]/g, '');
-                list.innerHTML += `
-                    <div class="shelter-card">
-                        <div style="display:flex; justify-content:space-between;">
-                            <div>
-                                <h3 style="font-size:15px; margin-bottom:4px;">${s.name}</h3>
-                                <p style="font-size:11px; color:var(--text-sub);">${s.summary}</p>
-                            </div>
-                            <div class="vacancy">
-                                <span style="font-size:9px; color:var(--point-orange); display:block;">남은자리</span>
-                                <span style="font-size:14px; font-weight:800;" id="vacancy-num-${region}-${shelterKey}">${s.vacancy}</span>
-                            </div>
+        const list = document.getElementById('shelter-list');
+        list.innerHTML = "";
+        shelterData[region].forEach(s => {
+            const shelterKey = s.name.replace(/[^a-zA-Z0-9가-힣]/g, '');
+            const vClass = vacancyClass(s.vacancy);
+            list.innerHTML += `
+                <div class="shelter-card">
+                    <div class="admin-only">
+                        <span style="font-size:11px;font-weight:700;color:#EF4444;">[공석 제어]</span>
+                        <input type="text" id="input-${region}-${shelterKey}" value="${s.vacancy}"
+                            style="width:48px;text-align:center;padding:3px;font-size:12px;border:1px solid #ddd;margin:0 6px;border-radius:4px;">
+                        <button onclick="updateVacancy('${region}','${shelterKey}')"
+                            style="background:#EF4444;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-family:'Pretendard',sans-serif;">저장</button>
+                    </div>
+                    <div class="shelter-card-top">
+                        <div style="flex:1;min-width:0;">
+                            <div class="shelter-name">${s.name}</div>
+                            <div class="shelter-summary">${s.summary}</div>
                         </div>
-                        
-                        <div class="admin-only">
-                            <span style="font-size:11px; font-weight:700; color:#EF4444;">[공석 실시간 제어]</span>
-                            <input type="text" id="input-${region}-${shelterKey}" value="${s.vacancy}" style="width:50px; text-align:center; padding:2px; font-size:12px; border:1px solid #ddd; margin: 0 4px;">
-                            <button onclick="updateVacancy('${region}', '${shelterKey}')" style="background:#EF4444; color:white; border:none; padding:3px 8px; border-radius:4px; font-size:11px; cursor:pointer;">확인</button>
-                        </div>
-
-                        <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:10px; color:#C62828; font-weight:700;">* 부모님께 비밀 보장</span>
-                            <a href="tel:${s.phone}" class="btn-call"><i class="fa-solid fa-phone"></i> 전화하기</a>
+                        <div class="vacancy-badge ${vClass}">
+                            <span class="v-label">공석</span>
+                            <span class="v-num" id="vacancy-num-${region}-${shelterKey}">${s.vacancy}</span>
+                            <span class="v-unit">석</span>
                         </div>
                     </div>
-                `;
-            });
+                    <div class="secret-tag"><i class="fa-solid fa-lock" style="margin-right:3px;"></i> 부모님께 비밀 보장</div>
+                    <div class="shelter-actions">
+                        <a href="tel:${s.phone}" class="btn-call"><i class="fa-solid fa-phone"></i> ${s.phone}</a>
+                        <a href="tel:112" class="btn-police"><i class="fa-solid fa-shield-halved"></i> 112</a>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // ── 커뮤니티 ──
+    const catLabel = { cheer: '💛 응원·위로', shelter: '🏠 쉼터후기', info: '📢 정보공유', question: '❓ 질문' };
+    const defaultPosts = [
+        { id: 1, user: "익명 클로버", cat: "shelter", text: "서울 용산 쉼터 왔는데 선생님들 너무 친절해요. 걱정 말고 오세요!", likes: 8, comments: [] },
+        { id: 2, user: "익명 해바라기", cat: "cheer", text: "오늘 하루도 버텨낸 우리 모두 대단해요. 내일은 조금 더 나아질 거예요 💛", likes: 12, comments: [] },
+        { id: 3, user: "익명 민들레", cat: "info", text: "검정고시 꿈드림센터에서 무료로 도와줘요. 1388로 연결하면 돼요!", likes: 5, comments: [] },
+    ];
+    let posts = JSON.parse(localStorage.getItem('hope_posts_v2')) || defaultPosts;
+
+    function renderPosts() {
+        const list = document.getElementById('post-list');
+        list.innerHTML = "";
+        const filtered = currentCommTab === 'all' ? posts : posts.filter(p => p.cat === currentCommTab);
+        if (filtered.length === 0) {
+            list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-sub);font-size:13px;">아직 글이 없어요. 첫 번째 글을 남겨보세요!</div>`;
+            return;
         }
-
-        // 광장 기본 초기 더미 게시글
-        const defaultPosts = [
-            { id: 1, user: "익명 클로버", text: "방금 서울 푸른나무 쉼터 왔는데 밥 너무 맛있어요.. 걱정 말고 오세요 다들!", likes: 5, comments: [] }
-        ];
-
-        let posts = JSON.parse(localStorage.getItem('hope_posts_data')) || defaultPosts;
-
-        // 게시글 렌더링 시스템 
-        function renderPosts() {
-            const list = document.getElementById('post-list');
-            list.innerHTML = "";
-            posts.forEach(p => {
-                let commentsHtml = p.comments.map(c => `<div style="font-size:12px; border-bottom:1px solid #eee; padding:5px 0; color:var(--text-main)">↳ <b>익명토닥:</b> ${c}</div>`).join("");
-                
-                list.innerHTML += `
-                    <div class="post">
-                        <div class="post-top"><span>${p.user}</span> <button onclick="deletePost(${p.id})" style="border:none; background:none; color:#ccc; cursor:pointer;">삭제</button></div>
-                        <p class="post-text" style="font-size:13px; line-height:1.4;">${p.text}</p>
-                        <div class="post-actions">
-                            <button onclick="likePost(${p.id})" style="border:none; background:none; cursor:pointer; font-size:12px; color:var(--text-sub);"><i class="fa-solid fa-heart" style="color:#E11D48"></i> 위로 ${p.likes}</button>
-                            <button onclick="toggleComment(${p.id})" style="border:none; background:none; cursor:pointer; font-size:12px; color:var(--text-sub);"><i class="fa-regular fa-comment"></i> 답글 ${p.comments.length}</button>
+        filtered.forEach(p => {
+            const commentsHtml = p.comments.map(c =>
+                `<div style="font-size:12px;border-bottom:1px solid #eee;padding:5px 0;color:var(--text-main)">↳ <b>익명토닥:</b> ${c}</div>`
+            ).join("");
+            list.innerHTML += `
+                <div class="post">
+                    <div class="post-top">
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span class="post-cat-badge">${catLabel[p.cat] || p.cat}</span>
+                            <span>${p.user}</span>
                         </div>
-                        <div class="comment-area" id="comm-${p.id}">
-                            <div id="comm-list-${p.id}">${commentsHtml}</div>
-                            <div style="display:flex; gap:5px; margin-top:10px;">
-                                <input type="text" id="comm-in-${p.id}" style="flex:1; border:1px solid #ddd; border-radius:4px; padding:5px; font-size:12px;" placeholder="답글 달기">
-                                <button onclick="addComment(${p.id})" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:4px; font-size:11px; cursor:pointer;">등록</button>
-                            </div>
+                        <button onclick="deletePost(${p.id})" style="border:none;background:none;color:#ccc;cursor:pointer;font-family:'Pretendard',sans-serif;">삭제</button>
+                    </div>
+                    <p class="post-text">${p.text}</p>
+                    <div class="post-actions">
+                        <button onclick="likePost(${p.id})"><i class="fa-solid fa-heart" style="color:#E11D48"></i> 위로 ${p.likes}</button>
+                        <button onclick="toggleComment(${p.id})"><i class="fa-regular fa-comment"></i> 답글 ${p.comments.length}</button>
+                    </div>
+                    <div class="comment-area" id="comm-${p.id}">
+                        <div id="comm-list-${p.id}">${commentsHtml}</div>
+                        <div style="display:flex;gap:6px;margin-top:8px;">
+                            <input type="text" id="comm-in-${p.id}"
+                                style="flex:1;border:1px solid #ddd;border-radius:6px;padding:6px 8px;font-size:12px;font-family:'Pretendard',sans-serif;"
+                                placeholder="익명으로 답글 달기">
+                            <button onclick="addComment(${p.id})"
+                                style="background:var(--primary);color:white;border:none;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Pretendard',sans-serif;">등록</button>
                         </div>
                     </div>
-                `;
-            });
-            localStorage.setItem('hope_posts_data', JSON.stringify(posts));
-        }
+                </div>
+            `;
+        });
+        localStorage.setItem('hope_posts_v2', JSON.stringify(posts));
+    }
 
-        function addPost() {
-            const input = document.getElementById('post-input');
-            if(!input.value.trim()) return;
-            posts.unshift({ id: Date.now(), user: "익명 클로버", text: input.value, likes: 0, comments: [] });
-            input.value = "";
-            renderPosts();
-        }
+    function addPost() {
+        const input = document.getElementById('post-input');
+        if (!input.value.trim()) return;
+        posts.unshift({ id: Date.now(), user: "익명 클로버", cat: selectedCat, text: input.value, likes: 0, comments: [] });
+        input.value = "";
+        renderPosts();
+    }
+    function deletePost(id) {
+        if (confirm("글을 삭제할까요?")) { posts = posts.filter(p => p.id !== id); renderPosts(); }
+    }
+    function likePost(id) {
+        const p = posts.find(p => p.id === id); if (p) { p.likes++; renderPosts(); }
+    }
+    function toggleComment(id) {
+        document.getElementById(`comm-${id}`).classList.toggle('active');
+    }
+    function addComment(id) {
+        const input = document.getElementById(`comm-in-${id}`);
+        if (!input.value.trim()) return;
+        posts.find(p => p.id === id).comments.push(input.value);
+        input.value = "";
+        renderPosts();
+        document.getElementById(`comm-${id}`).classList.add('active');
+    }
 
-        function deletePost(id) {
-            if(confirm("글을 삭제할까요?")) {
-                posts = posts.filter(p => p.id !== id);
-                renderPosts();
-            }
-        }
-
-        function likePost(id) {
-            const post = posts.find(p => p.id === id);
-            post.likes++;
-            renderPosts();
-        }
-
-        function toggleComment(id) {
-            const el = document.getElementById(`comm-${id}`);
-            el.classList.toggle('active');
-        }
-
-        function addComment(id) {
-            const input = document.getElementById(`comm-in-${id}`);
-            if(!input.value.trim()) return;
-            const post = posts.find(p => p.id === id);
-            post.comments.push(input.value);
-            input.value = "";
-            renderPosts();
-            document.getElementById(`comm-${id}`).classList.add('active');
-        }
-
-        // 🔒 복지사 로그인 흐름 제어 제어 로직 
-        function loginAsAdmin() {
-            const password = prompt("관리자 비밀번호를 입력하세요:");
-            
-            // 고유 비밀번호 기본 설정값 "1234"
-            if (password === "1234") { 
-                document.body.classList.add('admin-mode');
-                toggleSidebar(); 
-                alert("관리자 권한 인증 완료. [쉼터 찾기] 탭에서 공석 정보를 바로 변경할 수 있습니다.");
-                changeRegion('seoul'); 
-            } else {
-                alert("비밀번호가 일바르지 않습니다.");
-            }
-        }
-
-        // 공석 정보 변경 후 저장 기능
-        function updateVacancy(region, shelterKey) {
-            const inputVal = document.getElementById(`input-${region}-${shelterKey}`).value;
-            const shelter = shelterData[region].find(s => s.name.replace(/ /g, '') === shelterKey);
-            if (shelter) {
-                shelter.vacancy = inputVal;
-                localStorage.setItem('hope_shelter_data', JSON.stringify(shelterData));
-                document.getElementById(`vacancy-num-${region}-${shelterKey}`).innerText = inputVal;
-                alert("성공적으로 변경 및 동기화 처리 되었습니다.");
-            }
-        }
-
-        // 윈도우 로딩 최초 트리거 체인
-        window.onload = () => {
+    // ── 관리자 ──
+    function loginAsAdmin() {
+        const pw = prompt("관리자 비밀번호:");
+        if (pw === "1234") {
+            document.body.classList.add('admin-mode');
+            toggleSidebar();
+            alert("관리자 인증 완료. 쉼터 찾기 탭에서 공석을 변경할 수 있습니다.");
+            showPage('map');
             changeRegion('seoul', document.querySelector('.btn-region'));
-            renderPosts();
-        };
-    </script>
+        } else {
+            alert("비밀번호가 올바르지 않습니다.");
+        }
+    }
+    function updateVacancy(region, shelterKey) {
+        const val = document.getElementById(`input-${region}-${shelterKey}`).value;
+        const shelter = shelterData[region].find(s => s.name.replace(/[^a-zA-Z0-9가-힣]/g, '') === shelterKey);
+        if (shelter) {
+            shelter.vacancy = val;
+            const saved = JSON.parse(localStorage.getItem('hope_vacancies')) || {};
+            saved[`${region}__${shelterKey}`] = val;
+            localStorage.setItem('hope_vacancies', JSON.stringify(saved));
+            const el = document.getElementById(`vacancy-num-${region}-${shelterKey}`);
+            if (el) {
+                el.innerText = val;
+                el.closest('.vacancy-badge').className = 'vacancy-badge ' + vacancyClass(val);
+            }
+            alert("공석 정보가 업데이트되었습니다.");
+        }
+    }
+
+    window.onload = () => {
+        changeRegion('seoul', document.querySelector('.btn-region'));
+        renderPosts();
+    };
+</script>
 </body>
 </html>
